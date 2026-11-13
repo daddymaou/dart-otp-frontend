@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+coverage
+.env
+.env.local
+npm-debug.log*
+.DS_Store
+
+# Local artifacts and intentionally unused assets
+# The reference folder is not used for this project and stays out of git.
+reference/
+screenshots/
+ASSETS_README.md
