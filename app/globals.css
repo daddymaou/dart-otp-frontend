@@ -332,6 +332,21 @@ code, pre, .mono { font-family: var(--font-jetbrains), monospace; }
 .auth-side-bolt { right: 8%; bottom: 13%; width: 58px; transform: rotate(14deg); }
 .auth-art-side > p { margin: 28px 0 0; font-family: var(--font-bricolage), sans-serif; font-size: clamp(1.3rem, 2vw, 1.8rem); font-weight: 700; line-height: 1.2; }
 
+.simple-page { display: flex; min-height: calc(100vh - 180px); align-items: flex-start; padding-block: 158px 76px; }
+.simple-page-inner { width: min(820px, calc(100% - 48px)); margin-inline: auto; }
+.simple-page h1, .legal-page h1 { margin: 15px 0 14px; font-size: clamp(2.5rem, 5vw, 4.2rem); line-height: 1.02; }
+.simple-page-inner > p { max-width: 700px; margin-bottom: 22px; color: #5D5866; }
+.simple-code { overflow-x: auto; margin: 28px 0 18px; border: 3px solid var(--ink); border-radius: 20px; background: var(--ink); box-shadow: var(--shadow-hard); color: var(--paper); }
+.simple-code pre { min-width: max-content; margin: 0; padding: 22px 24px; font-size: 13px; line-height: 1.7; }
+.simple-note { padding: 14px 17px; border-left: 4px solid var(--violet); border-radius: 0 12px 12px 0; background: var(--lilac); color: var(--ink) !important; font-size: 14px; }
+.simple-note code { padding: 2px 5px; border-radius: 5px; background: #fff; font-size: .9em; }
+.legal-page { width: min(820px, calc(100% - 48px)); margin-inline: auto; }
+.legal-page h1 { margin-bottom: 18px; }
+.legal-page h2 { margin: 30px 0 8px; font-size: 23px; line-height: 1.15; }
+.legal-page p { margin-bottom: 11px; color: #504B59; }
+.legal-page a { color: var(--violet-deep); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.legal-page .legal-placeholder { margin: 0 0 30px; padding: 14px 17px; border: 2px solid #D6A31B; border-radius: 12px; background: #FFF3C4; color: #57440B; font-size: 14px; }
+
 .final-cta { position: relative; overflow: hidden; background: var(--pink); text-align: center; }
 .final-cta-inner { position: relative; z-index: 1; padding-block: 90px 102px; }
 .final-cta h2 { margin: 17px 0 8px; font-size: clamp(2.8rem, 1rem + 5.2vw, 5rem); line-height: 1; }
@@ -363,6 +378,11 @@ code, pre, .mono { font-family: var(--font-jetbrains), monospace; }
   body { font-size: 16px; }
   .page-shell { width: min(100% - 36px, 540px); }
   .section-content { padding-block: 58px 82px; }
+  .simple-page { min-height: calc(100vh - 160px); padding-block: 119px 56px; }
+  .simple-page-inner, .legal-page { width: calc(100% - 36px); }
+  .simple-page h1, .legal-page h1 { font-size: clamp(2.45rem, 11vw, 3.3rem); }
+  .simple-code pre { padding: 17px; font-size: 11px; }
+  .legal-page h2 { margin-top: 24px; font-size: 20px; }
   .auth-main { display: block; min-height: 100vh; }
   .auth-form-side { min-height: 100vh; padding: 19px 22px 35px; }
   .auth-brand { font-size: 16px; }
