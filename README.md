@@ -1,156 +1,45 @@
-# Dart-OTP Frontend
+# Dart-OTP
 
-**The dashboard and public site for Dart-OTP.**
+### One-time codes, minus the SMS bill.
 
-Dart-OTP replaces SMS one-time passcodes with Telegram delivery. This repository contains the public marketing site, developer docs stub, auth screens, and the tenant dashboard used to manage API keys, templates, logs, and webhooks.
+Dart-OTP helps apps verify users with one-time passcodes delivered through Telegram instead of SMS. It gives product teams a straightforward way to send and verify codes, while providing a workspace to manage credentials and keep an eye on OTP activity.
 
-This frontend is built to match the backend contract in the companion `dart-otp` repository and is intended to work alongside the API service that handles code generation, verification, quotas, rate limits, and Telegram delivery.
+## Why Dart-OTP
 
----
+- **A different delivery channel:** Deliver verification codes through Telegram rather than relying on SMS.
+- **A clear integration path:** Use a small API surface to request, verify, and resend one-time codes.
+- **A workspace for operations:** Manage API keys, message templates, delivery logs, and webhooks in one place.
+- **Useful visibility:** Review OTP activity and usage from a single dashboard.
 
-## What this repo includes
+## How it works
 
-- Marketing landing page for the product
-- Auth screens for login and signup
-- Dashboard shell and tenant views for:
-  - overview
-  - API keys
-  - templates
-  - logs
-  - webhooks
-  - settings
-- Static legal pages for terms and privacy
-- Docs stub and 404/error flows
-- Styling system based on the design brief and the supplied assets pack
-- Proxy configuration for `/api/*` requests to the backend
+1. Your application requests an OTP from Dart-OTP using a server-side API key.
+2. Dart-OTP sends the code to the user through Telegram. Users may need to link their phone number with the Dart-OTP Telegram bot first.
+3. Your application submits the code for verification and continues its sign-in or confirmation flow.
 
----
+Keep API keys on your server. Never include a secret API key in browser code or a mobile app.
 
-## Stack
+## Your Dart-OTP workspace
 
-- Next.js 14 App Router
-- TypeScript
-- Tailwind CSS
-- shadcn/ui-style primitives heavily restyled
-- TanStack Query
-- react-hook-form + zod
-- sonner toasts
-- Framer Motion-compatible `motion` package
-- lucide-react icons
-- Recharts for dashboard charts
+The workspace is designed to give each account control over its OTP setup:
 
----
+- **Overview:** See send, verification, failure, and recent activity.
+- **API keys:** Create and revoke credentials, including separate test keys.
+- **Templates:** Manage the messages used for one-time codes.
+- **Logs:** Review OTP events and filter recent activity.
+- **Webhooks:** Configure event notifications for your own systems.
+- **Settings:** View account and plan information.
 
-## Project structure
+## Built for developers
 
-```text
-app/
-  dashboard/
-  design/
-  docs/
-  login/
-  signup/
-  terms/
-  privacy/
-  layout.tsx
-  page.tsx
-  globals.css
-components/
-  auth-form.tsx
-  dashboard-shell.tsx
-  design-showcase.tsx
-  site.tsx
-  ui.tsx
-lib/
-  api.ts
-  display.ts
-  plans.ts
-  utils.ts
-tokens/
-  tokens.css
-public/
-  assets/
-  ...
-.env.example
-.gitignore
-middleware.ts
-next.config.mjs
-package.json
-tailwind.config.ts
-tsconfig.json
-```
+Dart-OTP is intended for websites and applications that need to confirm a phone number or protect an account action without making SMS the only delivery option. The service handles OTP delivery and verification; your application remains responsible for its own users, sessions, and authorization.
 
----
+The API includes endpoints for sending, verifying, and resending codes, along with account and workspace operations. The `/docs` page in this project is still a placeholder; complete public API documentation and confirmed production limits should be published before general availability.
 
-## Environment
+## Product status
 
-Copy `.env.example` and fill in the values used by the app:
-
-```env
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-API_URL=http://localhost:3001
-```
-
-`API_URL` is used by the proxy layer in `next.config.mjs` for `/api/:path*` rewrites. `NEXT_PUBLIC_SITE_URL` is the public frontend URL.
-
----
-
-## Local development
-
-From the repo root:
-
-```bash
-npm install
-npm run dev
-```
-
-Then open:
-
-- `http://localhost:3000`
-
-The app expects the backend service to exist on `API_URL` for real API calls. If the backend is not running, the frontend should still render but API routes will fail gracefully.
-
----
-
-## Scripts
-
-```bash
-npm run dev
-npm run build
-npm run lint
-npm run typecheck
-```
-
-`typecheck` is mapped to `tsc --noEmit` in `package.json`.
-
----
-
-## Design and asset notes
-
-- The repository is intentionally built around the included asset pack under `public/assets`.
-- The unused `reference/` folder is excluded from git.
-- The `ASSETS_README.md` file is ignored and not committed to the repository because it is an asset pack guide rather than a source file for the project.
-
----
-
-## Backend compatibility
-
-This repo follows the backend API contract from the companion Dart-OTP backend repository, including:
-
-- error shape: `{ error: { code, message } }`
-- public OTP endpoints under `/v1/otp/*`
-- dashboard auth cookie: `dartotp_session`
-- API key and template semantics
-- webhook events and tenant-scoped API model
-
----
+This repository contains the customer-facing website and workspace interface. Features shown in the interface depend on the companion Dart-OTP API being available and configured. Pricing shown in the product interface is not a final offer, and legal pages must be reviewed before launch.
 
 ## License
 
-This frontend repository is proprietary software. See `LICENSE` for the terms governing use, copying, modification, and redistribution.
-
----
-
-## Relationship to the backend
-
-The backend repository is a separate project and is not a dependency in this folder. The frontend is intentionally designed to call the backend over the Next.js proxy route and to match the API contract, not to reimplement backend logic.
+Dart-OTP is proprietary software. See [LICENSE](./LICENSE) for the applicable terms.
