@@ -198,7 +198,7 @@ export function WaveDivider({
 export function SiteFooter() {
   return (
     <footer className="site-footer">
-      <WaveDivider shape="c" color="deep" edge height={74} />
+      <WaveDivider shape="c" color="deep" height={74} />
       <div className="footer-inner">
         <div className="footer-brand">
           <span className="logo-chip"><Image src="/assets/brand/logo-512.png" alt="" width={48} height={48} /></span>
@@ -214,9 +214,6 @@ export function SiteFooter() {
           <a href="mailto:hello@dart-otp.dev">Contact</a>
           <a href="mailto:status@dart-otp.dev">Status</a>
         </nav>
-        <a className="storyset-credit" href="https://storyset.com" rel="noreferrer" target="_blank">
-          Illustrations by Storyset
-        </a>
       </div>
     </footer>
   );
