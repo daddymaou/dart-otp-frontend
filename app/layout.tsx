@@ -26,6 +26,14 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'Dart-OTP',
   description: 'Send one-time passcodes through Telegram',
+  icons: {
+    icon: [
+      { url: '/assets/brand/favicon-16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/assets/brand/favicon-32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    shortcut: '/assets/brand/favicon-32.png',
+    apple: '/assets/brand/apple-touch-icon.png',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
