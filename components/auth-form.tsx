@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
-import { api, friendlyError } from '@/lib/api';
+import { ApiError, api, friendlyError } from '@/lib/api';
 import { StickerButton } from '@/components/ui';
 
 export function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
@@ -21,7 +21,8 @@ export function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
       setError('Enter your name so we know what to call your workspace.');
       return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+    const email = values.email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError('Enter a valid email address.');
       return;
     }
@@ -32,14 +33,20 @@ export function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
     setLoading(true);
     try {
       if (isSignup) {
-        await api.signup({ name: values.name.trim(), email: values.email, password: values.password });
+        await api.signup({ name: values.name.trim(), email, password: values.password });
       } else {
-        await api.login({ email: values.email, password: values.password });
+        await api.login({ email, password: values.password });
       }
       router.push('/dashboard');
       router.refresh();
     } catch (requestError) {
-      setError(friendlyError(requestError));
+      if (requestError instanceof ApiError && !isSignup && requestError.code === 'unauthorized') {
+        setError('Email or password is incorrect. Check your details or create an account.');
+      } else if (requestError instanceof ApiError && isSignup && requestError.code === 'conflict') {
+        setError('An account with this email already exists. Try logging in instead.');
+      } else {
+        setError(friendlyError(requestError));
+      }
     } finally {
       setLoading(false);
     }

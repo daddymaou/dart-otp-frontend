@@ -196,14 +196,22 @@ export function Dialog({
   onClose: () => void;
 }) {
   const dialogRef = useRef<HTMLDivElement>(null);
+  const onCloseRef = useRef(onClose);
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
 
   useEffect(() => {
     const previouslyFocused = document.activeElement as HTMLElement | null;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    dialogRef.current?.focus();
+    const initialFocus = dialogRef.current?.querySelector<HTMLElement>(
+      '[autofocus], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), a[href]',
+    );
+    (initialFocus ?? dialogRef.current)?.focus();
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
+      if (event.key === 'Escape') onCloseRef.current();
       if (event.key !== 'Tab') return;
       const items = dialogRef.current?.querySelectorAll<HTMLElement>(
         'button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
@@ -221,9 +229,9 @@ export function Dialog({
     return () => {
       document.body.style.overflow = previousOverflow;
       document.removeEventListener('keydown', onKeyDown);
-      previouslyFocused?.focus();
+      if (previouslyFocused?.isConnected) previouslyFocused.focus();
     };
-  }, [onClose]);
+  }, []);
 
   return (
     <div className="dialog-backdrop" onMouseDown={(event) => {

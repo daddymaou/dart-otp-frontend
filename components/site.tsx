@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { api } from '@/lib/api';
 
 const navigation = [
   { label: 'Product', href: '#product' },
@@ -23,9 +24,18 @@ export function SiteNav() {
   const [compact, setCompact] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [active, setActive] = useState('Product');
+  const [authenticated, setAuthenticated] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
   const previousScroll = useRef(0);
   const menuPanel = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    api.me()
+      .then(() => { if (isMounted) setAuthenticated(true); })
+      .catch(() => { if (isMounted) setAuthenticated(false); });
+    return () => { isMounted = false; };
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -105,8 +115,10 @@ export function SiteNav() {
             ))}
           </div>
           <div className="site-nav-actions">
-            <Link className="nav-login" href="/login">Log in</Link>
-            <Link className="button button-primary nav-cta" href="/signup">Get API key</Link>
+            {!authenticated && <Link className="nav-login" href="/login">Log in</Link>}
+            <Link className="button button-primary nav-cta" href={authenticated ? '/dashboard' : '/signup'}>
+              {authenticated ? 'Go to dashboard' : 'Get API key'}
+            </Link>
             <button
               aria-expanded={menuOpen}
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
@@ -157,7 +169,9 @@ export function SiteNav() {
                   {item.label}
                 </Link>
               ))}
-              <Link href="/signup" onClick={() => setMenuOpen(false)}>Get an API key</Link>
+              <Link href={authenticated ? '/dashboard' : '/signup'} onClick={() => setMenuOpen(false)}>
+                {authenticated ? 'Go to dashboard' : 'Get an API key'}
+              </Link>
             </div>
             <Image className="menu-sticker menu-sticker-one" src="/assets/stickers/sticker-bolt-yellow.svg" alt="" width={72} height={72} />
             <Image className="menu-sticker menu-sticker-two" src="/assets/stickers/sticker-star-pink.svg" alt="" width={62} height={62} />
