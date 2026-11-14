@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { api, friendlyError, type Tenant } from '@/lib/api';
+import { ApiError, api, friendlyError, type Tenant } from '@/lib/api';
 import { plans } from '@/lib/plans';
 import { Dialog, Input, StickerButton } from '@/components/ui';
 
@@ -33,7 +33,15 @@ export default function SettingsPage() {
       router.replace('/');
       router.refresh();
     } catch (requestError) {
-      setError(friendlyError(requestError));
+      if (requestError instanceof ApiError && requestError.code === 'unauthorized') {
+        if (/invalid email or password/i.test(requestError.message)) {
+          setError('That password is incorrect. Your account has not been deleted.');
+        } else {
+          router.replace('/login');
+        }
+      } else {
+        setError(friendlyError(requestError));
+      }
       setDeleting(false);
     }
   }

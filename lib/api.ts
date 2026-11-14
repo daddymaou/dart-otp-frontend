@@ -105,7 +105,11 @@ export type SendOtpResult =
   | { otp_id: string; status: 'sent'; expires_at: string }
   | PendingLinkResult;
 
-async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
+async function request<T>(
+  path: string,
+  init: RequestInit = {},
+  options: { redirectOnUnauthorized?: boolean } = {},
+): Promise<T> {
   const headers = new Headers(init.headers);
   if (init.body && !headers.has('Content-Type')) {
     headers.set('Content-Type', 'application/json');
@@ -131,7 +135,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   if (!response.ok) {
     const error = (payload as ErrorPayload)?.error;
     const code = error?.code ?? 'internal';
-    if (code === 'unauthorized' && typeof window !== 'undefined') {
+    if (code === 'unauthorized' && options.redirectOnUnauthorized !== false && typeof window !== 'undefined') {
       window.dispatchEvent(new Event('dartotp:unauthorized'));
     }
     throw new ApiError(
@@ -159,7 +163,11 @@ export const api = {
   logout: () => request<void>('/v1/auth/logout', json({})),
   me: () => request<Tenant>('/v1/auth/me'),
   deleteAccount: (password: string) =>
-    request<void>('/v1/auth/me', { method: 'DELETE', body: JSON.stringify({ password }) }),
+    request<void>(
+      '/v1/auth/me',
+      { method: 'DELETE', body: JSON.stringify({ password }) },
+      { redirectOnUnauthorized: false },
+    ),
   keys: () => request<{ api_keys: ApiKey[] }>('/v1/api-keys'),
   createKey: (input: { name: string; is_test: boolean }) =>
     request<CreatedApiKey>('/v1/api-keys', json(input)),
