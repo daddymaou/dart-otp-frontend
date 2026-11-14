@@ -71,7 +71,7 @@ export default function DocsPage() {
                 </ol>
                 <div className="docs-code-note">
                   <strong>Base URL</strong>
-                  <p>Use the HTTPS base URL for your Dart-OTP backend, without a trailing slash. The Vercel frontend URL is not the backend URL.</p>
+                  <p>Production API: <a href="https://dart-otp.onrender.com">https://dart-otp.onrender.com</a>. Use this as <code>API_BASE_URL</code> (without a trailing slash). The Vercel frontend URL is not the backend URL.</p>
                 </div>
               </section>
 
@@ -101,7 +101,7 @@ export default function DocsPage() {
   "deep_link": "https://t.me/DartOTPBot?start=<token>",
   "link_expires_at": "2026-11-12T10:15:00Z"
 }`}</code></pre>
-                <p>For a live key, send the deep link to the user and have them open it and share their own phone number with the bot. Then request a new code.</p>
+                <p>For a live key, send the deep link to the user and have them open it and share their own phone number with the bot. They can also open <a href="https://t.me/dartotp_bot" rel="noreferrer" target="_blank">@dartotp_bot</a>. Then request a new code.</p>
               </section>
 
               <section className="docs-section" id="verify">

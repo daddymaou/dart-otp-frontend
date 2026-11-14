@@ -4,6 +4,9 @@
 
 Dart-OTP helps apps verify users with one-time passcodes delivered through Telegram instead of SMS. It gives product teams a straightforward way to send and verify codes, while providing a workspace to manage credentials and keep an eye on OTP activity.
 
+- **API:** [https://dart-otp.onrender.com](https://dart-otp.onrender.com)
+- **Telegram bot:** [@dartotp_bot](https://t.me/dartotp_bot)
+
 ## Why Dart-OTP
 
 - **A different delivery channel:** Deliver verification codes through Telegram rather than relying on SMS.
@@ -34,7 +37,7 @@ The workspace is designed to give each account control over its OTP setup:
 
 Dart-OTP is intended for websites and applications that need to confirm a phone number or protect an account action without making SMS the only delivery option. The service handles OTP delivery and verification; your application remains responsible for its own users, sessions, and authorization.
 
-The API includes endpoints for sending, verifying, and resending codes, along with account and workspace operations. The `/docs` page in this project is still a placeholder; complete public API documentation and confirmed production limits should be published before general availability.
+The [developer quickstart](/docs) covers test mode, sending, verifying, and resending OTPs, API responses, errors, and dashboard endpoints. Confirm current service limits in your account and API responses.
 
 ## Product status
 
