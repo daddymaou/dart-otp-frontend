@@ -14,6 +14,18 @@ Dart-OTP helps apps verify users with one-time passcodes delivered through Teleg
 - **A workspace for operations:** Manage API keys, message templates, delivery logs, and webhooks in one place.
 - **Useful visibility:** Review OTP activity and usage from a single dashboard.
 
+## Plans
+
+| Plan | Monthly live OTP sends | Price per month |
+| --- | ---: | ---: |
+| Free | 100 | ₦0 |
+| Starter | 1,000 | ₦2,500 |
+| Growth | 5,000 | ₦7,500 |
+| Pro | 10,000 | ₦15,000 |
+| Business | 50,000 | ₦50,000 |
+
+Test sends do not count toward live-send quotas. Paid plans are requested through [support](mailto:maou4rl@gmail.com); online checkout is not currently offered.
+
 ## How it works
 
 1. Your application requests an OTP from Dart-OTP using a server-side API key.
@@ -37,11 +49,13 @@ The workspace is designed to give each account control over its OTP setup:
 
 Dart-OTP is intended for websites and applications that need to confirm a phone number or protect an account action without making SMS the only delivery option. The service handles OTP delivery and verification; your application remains responsible for its own users, sessions, and authorization.
 
-The [developer quickstart](/docs) covers test mode, sending, verifying, and resending OTPs, API responses, errors, and dashboard endpoints. Confirm current service limits in your account and API responses.
+The [developer quickstart](/docs) covers test mode, sending, verifying, and resending OTPs, API responses, errors, and dashboard endpoints.
 
-## Product status
+## Service information
 
-This repository contains the customer-facing website and workspace interface. Features shown in the interface depend on the companion Dart-OTP API being available and configured. Pricing shown in the product interface is not a final offer, and legal pages must be reviewed before launch.
+The API is hosted at [https://dart-otp.onrender.com](https://dart-otp.onrender.com), with health information at [/health](https://dart-otp.onrender.com/health). End users receive codes through [@dartotp_bot](https://t.me/dartotp_bot) and must have a Telegram account to receive live OTPs.
+
+For assistance or paid-plan requests, email [maou4rl@gmail.com](mailto:maou4rl@gmail.com). Read the [Terms of Service](/terms) and [Privacy Notice](/privacy) before using the service.
 
 ## License
 
