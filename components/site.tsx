@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { api } from '@/lib/api';
+import { api, type Tenant } from '@/lib/api';
 
 const navigation = [
   { label: 'Product', href: '#product' },
@@ -14,7 +14,7 @@ const navigation = [
 
 const extraLinks = [
   { label: 'Docs', href: '/docs' },
-  { label: 'Status', href: 'mailto:status@dart-otp.dev' },
+  { label: 'API status', href: 'https://dart-otp.onrender.com/health' },
   { label: 'Terms', href: '/terms' },
   { label: 'Privacy', href: '/privacy' },
 ];
@@ -24,7 +24,7 @@ export function SiteNav() {
   const [compact, setCompact] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [active, setActive] = useState('Product');
-  const [authenticated, setAuthenticated] = useState(false);
+  const [tenant, setTenant] = useState<Tenant | null>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
   const previousScroll = useRef(0);
   const menuPanel = useRef<HTMLDivElement>(null);
@@ -32,10 +32,21 @@ export function SiteNav() {
   useEffect(() => {
     let isMounted = true;
     api.me()
-      .then(() => { if (isMounted) setAuthenticated(true); })
-      .catch(() => { if (isMounted) setAuthenticated(false); });
+      .then((account) => { if (isMounted) setTenant(account); })
+      .catch(() => { if (isMounted) setTenant(null); });
     return () => { isMounted = false; };
   }, []);
+
+  async function logout() {
+    try {
+      await api.logout();
+      setTenant(null);
+      setMenuOpen(false);
+      window.location.assign('/');
+    } catch {
+      window.location.assign('/login');
+    }
+  }
 
   useEffect(() => {
     const onScroll = () => {
@@ -115,9 +126,14 @@ export function SiteNav() {
             ))}
           </div>
           <div className="site-nav-actions">
-            {!authenticated && <Link className="nav-login" href="/login">Log in</Link>}
-            <Link className="button button-primary nav-cta" href={authenticated ? '/dashboard' : '/signup'}>
-              {authenticated ? 'Go to dashboard' : 'Get API key'}
+            {tenant ? (
+              <>
+                <span className="nav-account-name">Hi, {tenant.name}</span>
+                <button className="nav-login nav-logout" onClick={logout} type="button">Log out</button>
+              </>
+            ) : <Link className="nav-login" href="/login">Log in</Link>}
+            <Link className="button button-primary nav-cta" href={tenant ? '/dashboard' : '/signup'}>
+              {tenant ? 'Go to dashboard' : 'Get API key'}
             </Link>
             <button
               aria-expanded={menuOpen}
@@ -169,9 +185,12 @@ export function SiteNav() {
                   {item.label}
                 </Link>
               ))}
-              <Link href={authenticated ? '/dashboard' : '/signup'} onClick={() => setMenuOpen(false)}>
-                {authenticated ? 'Go to dashboard' : 'Get an API key'}
-              </Link>
+              {tenant ? (
+                <>
+                  <Link href="/dashboard" onClick={() => setMenuOpen(false)}>Go to dashboard</Link>
+                  <button className="menu-logout" onClick={logout} type="button">Log out</button>
+                </>
+              ) : <Link href="/signup" onClick={() => setMenuOpen(false)}>Get an API key</Link>}
             </div>
             <Image className="menu-sticker menu-sticker-one" src="/assets/stickers/sticker-bolt-yellow.svg" alt="" width={72} height={72} />
             <Image className="menu-sticker menu-sticker-two" src="/assets/stickers/sticker-star-pink.svg" alt="" width={62} height={62} />
@@ -225,8 +244,8 @@ export function SiteFooter() {
           <Link href="/docs">Docs</Link>
           <Link href="/terms">Terms</Link>
           <Link href="/privacy">Privacy</Link>
-          <a href="mailto:hello@dart-otp.dev">Contact</a>
-          <a href="mailto:status@dart-otp.dev">Status</a>
+          <a href="mailto:maou4rl@gmail.com">Contact</a>
+          <a href="https://dart-otp.onrender.com/health" rel="noreferrer" target="_blank">API status</a>
         </nav>
       </div>
     </footer>

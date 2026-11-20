@@ -63,9 +63,9 @@ export default function SettingsPage() {
             </dl>
           </section>
           <section className="dashboard-panel settings-panel plan-settings">
-            <div className="panel-heading"><div><h2>Plan and usage</h2><p>Plan allowances are placeholders.</p></div><span className="plan-badge">{plan.name}</span></div>
+            <div className="panel-heading"><div><h2>Plan and usage</h2><p>Your monthly live-send allowance</p></div><span className="plan-badge">{plan.name}</span></div>
             <div className="plan-settings-quota"><strong>{plan.monthlySends.toLocaleString()}</strong><span>OTP sends per month</span></div>
-            <p>Upgrade and billing are not available in this version. The plan limits live in one frontend config file.</p>
+            <p>Test sends do not count toward this allowance. To discuss a paid plan, contact <a href="mailto:maou4rl@gmail.com">support</a>.</p>
           </section>
           <section className="dashboard-panel danger-zone">
             <div><span className="danger-kicker">DANGER ZONE</span><h2>Delete your account</h2><p>This permanently removes your account and its data, including API keys, templates, logs, and webhooks.</p></div>

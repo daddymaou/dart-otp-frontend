@@ -72,7 +72,7 @@ export default function DashboardOverview() {
           </div>
         </section>
         <section className="dashboard-panel usage-panel">
-          <div className="panel-heading"><div><h2>Monthly usage</h2><p>{tenant?.plan === 'pro' ? 'Pro plan' : 'Free plan'}</p></div><span className="usage-mark">↗</span></div>
+          <div className="panel-heading"><div><h2>Monthly usage</h2><p>{plans.find((plan) => plan.id === (tenant?.plan ?? 'free'))?.name ?? 'Free'} plan</p></div><span className="usage-mark">↗</span></div>
           <div className="usage-count"><strong>{stats.sent.toLocaleString()}</strong><span>of {quota.toLocaleString()} sends</span></div>
           <div className="usage-meter" role="meter" aria-label="Monthly sends used" aria-valuenow={stats.sent} aria-valuemin={0} aria-valuemax={quota}><i style={{ width: `${usagePercent}%` }} /></div>
           <p>{usagePercent >= 85 ? 'You are getting close to this plan’s limit.' : 'Usage resets at the start of each month.'}</p>
