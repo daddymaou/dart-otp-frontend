@@ -49,7 +49,7 @@ const questions = [
   },
   {
     question: 'How long are records kept?',
-    answer: 'Delivery and verification records are available in your dashboard. Exact retention depends on the service policy and will be documented before launch.',
+    answer: 'OTP records are automatically removed according to the service retention setting, which defaults to 30 days. See the privacy notice for details.',
   },
   {
     question: 'Are there rate limits?',
@@ -236,23 +236,26 @@ export default function HomePage() {
             <div className="section-heading centered-heading">
               <span className="eyebrow"><i /> Straightforward starting points</span>
               <h2>Start small. Grow when you need to.</h2>
-              <p>Pricing figures are placeholders for now, not a checkout promise.</p>
+              <p>Choose a monthly usage tier. Paid plans are requested through support and confirmed before activation.</p>
             </div>
             <div className="pricing-grid">
               {plans.map((plan, index) => (
-                <article className={`sticker-card pricing-card ${index === 1 ? 'pricing-card-featured' : ''}`} key={plan.id}>
-                  {index === 1 && <span className="pricing-ribbon">MORE ROOM</span>}
+                <article className={`sticker-card pricing-card ${index === 2 ? 'pricing-card-featured' : ''}`} key={plan.id}>
+                  {index === 2 && <span className="pricing-ribbon">POPULAR</span>}
                   <div className="pricing-card-top"><span className="plan-badge">{plan.name}</span><span className="pricing-price">{plan.price}</span></div>
                   <p>{plan.description}</p>
                   <div className="plan-quota"><strong>{plan.monthlySends.toLocaleString()}</strong><span>sends / month</span></div>
                   <ul>{plan.features.map((feature) => <li key={feature}><span aria-hidden="true">✓</span>{feature}</li>)}</ul>
-                  <Link className={`button ${index === 1 ? 'button-violet' : 'button-primary'} button-full`} href="/signup">
-                    Get started <span aria-hidden="true">↗</span>
+                  <Link
+                    className={`button ${index === 2 ? 'button-violet' : 'button-primary'} button-full`}
+                    href={plan.id === 'free' ? '/signup' : `mailto:maou4rl@gmail.com?subject=${encodeURIComponent(`Dart-OTP ${plan.name} plan request`)}`}
+                  >
+                    {plan.id === 'free' ? 'Start free' : 'Request plan'} <span aria-hidden="true">↗</span>
                   </Link>
                 </article>
               ))}
             </div>
-            <p className="pricing-note">Telegram is required for delivery. A phone has to be linked to the bot before its first code.</p>
+            <p className="pricing-note">Prices are monthly in Nigerian naira. Paid plans are subject to support confirmation and account configuration; contacting support does not activate a plan or charge you. Test sends do not count toward live-send limits. Telegram is required for live delivery, and users must link their phone with the bot first.</p>
           </div>
         </section>
 
